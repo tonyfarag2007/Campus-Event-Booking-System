@@ -16,68 +16,68 @@ TODO: Should be able to dump confirmed/waitlisted users
     // Enums are public so they can be used "anywhere", not strictly class attributes
     public static final enum EventType { Workshop, Seminar, Concert };
     public static final enum EventStatus { Active, Cancalled };
-    // NOTE: eventID will need a concrete type sometime once we figure out if it can be just an int or string.
+    // NOTE: event_id will need a concrete type sometime once we figure out if it can be just an int or string.
     // like "E0001", for now it is a string. It is also final since ID should never change.
-    private final String eventID;
-    private String eventTitle;
-    private Date eventDate;
-    private String eventLocation;
+    private final String event_id;
+    private String event_title;
+    private Date event_date;
+    private String event_location;
     // Note that capacity MUST be > 0 when deserializing or serializing data (i.e. when loading from CSV or getting user input)
-    private int eventCapacity;
-    private String confirmedUsers;
-    private String waitlistedUsers;
+    private int event_capacity;
+    private String confirmed_users;
+    private String waitlisted_users;
 
     // EVENT SPECIFIC ATTRIBUTES, These may be implemented with inheritance if need be down the line!
-    private String workshopTopic;
-    private String seminarSpeakerName;
+    private String workshop_topic;
+    private String seminar_speaker_name;
     // Note that age restriction is just for display and nothing more.
-    private int concertAgeRestriction;
+    private int convert_age_restriction;
 
-    Event(String eventID, String eventTitle, Date eventDate,
-          String eventLocation, int eventCapacity, String confirmedusers,
-          String waitlistedUsers) {
-        this.eventID = eventID;
-        this.eventTitle = eventTitle;
-        this.eventDate = eventDate;
-        this.eventLocation = eventLocation;
-        this.eventCapacity = eventCapacity;
-        this.confirmedUsers = confirmedusers;
-        this.waitlistedUsers = waitlistedUsers;
+    Event(String event_id, String event_title, Date event_date,
+          String event_location, int event_capacity, String confirmed_users,
+          String waitlisted_users) {
+        this.event_id = event_id;
+        this.event_title = event_title;
+        this.event_date = event_date;
+        this.event_location = event_location;
+        this.event_capacity = event_capacity;
+        this.confirmed_users = confirmed_users;
+        this.waitlisted_users = waitlisted_users;
     }
-    Event(String eventID, String eventTitle, Date eventDate,
-          String eventLocation, int eventCapacity, String confirmedusers,
-          String waitlistedUsers, String workshopTopic) {
-        this.eventID = eventID;
-        this.eventTitle = eventTitle;
-        this.eventDate = eventDate;
-        this.eventLocation = eventLocation;
-        this.eventCapacity = eventCapacity;
-        this.confirmedUsers = confirmedusers;
-        this.waitlistedUsers = waitlistedUsers;
-        this.workshopTopic = workshopTopic;
+    Event(String event_id, String event_title, Date event_date,
+          String event_location, int event_capacity, String confirmed_users,
+          String waitlisted_users, String workshop_topic) {
+        this.event_id = event_id;
+        this.event_title = event_title;
+        this.event_date = event_date;
+        this.event_location = event_location;
+        this.event_capacity = event_capacity;
+        this.confirmed_users = confirmed_users;
+        this.waitlisted_users = waitlisted_users;
+        this.workshop_topic = workshop_topic;
     }
-    Event(String eventID, String eventTitle, Date eventDate,
-          String eventLocation, int eventCapacity, String confirmedusers,
-          String waitlistedUsers, String seminarSpeakerName) {
-        this.eventID = eventID;
-        this.eventTitle = eventTitle;
-        this.eventDate = eventDate;
-        this.eventLocation = eventLocation;
-        this.eventCapacity = eventCapacity;
-        this.confirmedUsers = confirmedusers;
-        this.waitlistedUsers = waitlistedUsers;
-        this.seminarSpeakerName = seminarSpeakerName;
+    Event(String event_id, String event_title, Date event_date,
+          String event_location, int event_capacity, String confirmed_users,
+          String waitlisted_users, String seminar_speaker_name) {
+        this.event_id = event_id;
+        this.event_title = event_title;
+        this.event_date = event_date;
+        this.event_location = event_location;
+        this.event_capacity = event_capacity;
+        this.confirmed_users = confirmed_users;
+        this.waitlisted_users = waitlisted_users;
+        this.seminar_speaker_name = seminar_speaker_name;
     }
-    Event(String eventID, String eventTitle, Date eventDate,
-          String eventLocation, int eventCapacity, String confirmedusers,
-          String waitlistedUsers, int concertAgeRestriction) {
-        this.eventID = eventID;
-        this.eventTitle = eventTitle;
-        this.eventDate = eventDate;
-        this.eventLocation = eventLocation;
-        this.eventCapacity = eventCapacity;
-        this.confirmedUsers = confirmedusers;
-        this.waitlistedUsers = waitlistedUsers;
-        this.concertAgeRestriction = concertAgeRestriction;
+    Event(String event_id, String event_title, Date event_date,
+          String event_location, int event_capacity, String confirmed_users,
+          String waitlisted_users, int convert_age_restriction) {
+        this.event_id = event_id;
+        this.event_title = event_title;
+        this.event_date = event_date;
+        this.event_location = event_location;
+        this.event_capacity = event_capacity;
+        this.confirmed_users = confirmed_users;
+        this.waitlisted_users = waitlisted_users;
+        this.convert_age_restriction = convert_age_restriction;
     }
 }
