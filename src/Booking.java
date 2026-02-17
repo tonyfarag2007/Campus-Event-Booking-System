@@ -1,4 +1,4 @@
-public class booking{
+public class Booking{
 
     private String b_id;
     private String u_id;
