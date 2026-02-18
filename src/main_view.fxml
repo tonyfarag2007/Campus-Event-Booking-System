@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<!--
+    Root layout uses TabPane for modular separation of views.
+    Source: Bro Code "JavaFX MenuBar".
+-->
+<TabPane fx:id="main_tab_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+    <tabs>
+        <Tab text="User Management">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="User TableView Placeholder" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+
+        <Tab text="Event Management">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Event ListView Placeholder" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+
+        <Tab text="Booking System">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Booking Logic Placeholder" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+
+        <Tab text="Waitlist">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Waitlist Management Placeholder" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>

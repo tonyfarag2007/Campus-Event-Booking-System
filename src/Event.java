@@ -2,37 +2,36 @@ import java.util.Date;
 
 public class Event {
     /*
-NOTE: Checking for proper input to the constructor should be done by the "client"
-(i.e. it is not managed by the constructor, though this may change during development)
+    NOTE: Checking for proper input to the constructor should be done by the "client"
+    (i.e. it is not managed by the constructor, though this may change during development)
 
-TODO: Ask if inheritance is needed here. May be ok to implement.
-TODO: Implement listing events (dump everything?)
-TODO: Search events (search by title w/ partial/case-insensitive match), filter by event type as well)
-TODO: Sort based on levenshtein distance: https://en.wikipedia.org/wiki/Levenshtein_distance
-    - ArrayList of string containing title + int score, subject to change
-TODO: Should be able to dump confirmed/waitlisted users
-    - Either write the entire waitlist/confirmed user strings or we end up writing all users from an ArrayList, up to parsing implementation.
+    TO-DO: Ask if inheritance is needed here. May be ok to implement.
+    TO-DO: Implement listing events (dump everything?)
+    TO-DO: Search events (search by title w/ partial/case-insensitive match), filter by event type as well)
+    TO-DO: Sort based on levenshtein distance: https://en.wikipedia.org/wiki/Levenshtein_distance
+        - ArrayList of string containing title + int score, subject to change
+    TO-DO: Should be able to dump confirmed/waitlisted users
+        - Either write the entire waitlist/confirmed user strings or we end up writing all users from an ArrayList, up to parsing implementation.
      */
-    // Enums are public so they can be used "anywhere", not strictly class attributes
-    public static final enum EventType { Workshop, Seminar, Concert };
-    public static final enum EventStatus { Active, Cancalled };
-    // NOTE: event_id will need a concrete type sometime once we figure out if it can be just an int or string.
-    // like "E0001", for now it is a string. It is also final since ID should never change.
+
+    // REMOVED 'final' modifier: Enums in Java are implicitly final.
+    // Including 'final' here causes a compiler error in Java 25.
+    public enum EventType { Workshop, Seminar, Concert };
+    public enum EventStatus { Active, Cancelled };
+
     private final String event_id;
     private String event_title;
     private Date event_date;
     private String event_location;
-    // Note that capacity MUST be > 0 when deserializing or serializing data (i.e. when loading from CSV or getting user input)
     private int event_capacity;
     private String confirmed_users;
     private String waitlisted_users;
 
-    // EVENT SPECIFIC ATTRIBUTES, These may be implemented with inheritance if need be down the line!
     private String workshop_topic;
     private String seminar_speaker_name;
-    // Note that age restriction is just for display and nothing more.
     private int convert_age_restriction;
 
+    // Constructor 1: Base
     Event(String event_id, String event_title, Date event_date,
           String event_location, int event_capacity, String confirmed_users,
           String waitlisted_users) {
@@ -44,6 +43,8 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.confirmed_users = confirmed_users;
         this.waitlisted_users = waitlisted_users;
     }
+
+    // Constructor 2: Workshop
     Event(String event_id, String event_title, Date event_date,
           String event_location, int event_capacity, String confirmed_users,
           String waitlisted_users, String workshop_topic) {
@@ -56,6 +57,14 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.waitlisted_users = waitlisted_users;
         this.workshop_topic = workshop_topic;
     }
+
+    /*
+     * COMMENTED OUT BY QASIM:
+     * This constructor conflicts with the Workshop constructor above.
+     * Both take (String, String, Date, String, int, String, String, String).
+     * Java cannot distinguish them based on variable names alone.
+     * We should move to a single 'Master' constructor or use Inheritance in Phase 2.
+     *
     Event(String event_id, String event_title, Date event_date,
           String event_location, int event_capacity, String confirmed_users,
           String waitlisted_users, String seminar_speaker_name) {
@@ -68,6 +77,9 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.waitlisted_users = waitlisted_users;
         this.seminar_speaker_name = seminar_speaker_name;
     }
+    */
+
+    // Constructor 4: Concert (This one is fine because the last param is an int)
     Event(String event_id, String event_title, Date event_date,
           String event_location, int event_capacity, String confirmed_users,
           String waitlisted_users, int convert_age_restriction) {
