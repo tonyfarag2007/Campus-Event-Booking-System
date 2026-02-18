@@ -27,7 +27,9 @@ public class User {
      return user_id;
     }
     // setUserId should only be used when updating ID due to event queue changes
-    public void setUserId(String user_id) {this.user_id = user_id;}
+    public void setUserId(String user_id) {
+        this.user_id = user_id;
+    }
     public String getEmail(){
         return email;
     }
