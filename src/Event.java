@@ -96,28 +96,28 @@ TODO: Should be able to dump confirmed/waitlisted users
     }
 
     // getters
-    public String get_event_id() { return this.event_id; }
-    public String get_event_title() { return this.event_title; }
-    public Date get_event_date() { return this.event_date; }
-    public String get_event_location() { return this.event_location; }
-    public int get_event_capacity() { return this.event_capacity; }
-    public String get_confirmed_users() { return this.confirmed_users; }
-    public String get_waitlisted_users() { return this.waitlisted_users; }
-    public ArrayList<String> get_booking_ids() { return this.booking_ids; }
-    public String get_workshop_topic() { return this.workshop_topic; }
-    public String get_seminar_speaker_name() { return this.seminar_speaker_name; }
-    public int get_concert_age_restriction() { return this.concert_age_restriction; }
+    public String getEventId() { return this.event_id; }
+    public String getEventTitle() { return this.event_title; }
+    public Date getEventDate() { return this.event_date; }
+    public String getEventLocation() { return this.event_location; }
+    public int getEventCapacity() { return this.event_capacity; }
+    public String getConfirmedUsers() { return this.confirmed_users; }
+    public String getWaitlistedUsers() { return this.waitlisted_users; }
+    public ArrayList<String> getBookingIds() { return this.booking_ids; }
+    public String getWorkshopTopic() { return this.workshop_topic; }
+    public String getSeminarSpeakerName() { return this.seminar_speaker_name; }
+    public int getConcertAgeRestriction() { return this.concert_age_restriction; }
 
     // setters
-    public String set_event_id(String new_event_id) { this.event_id = new_event_id; }
-    public String set_event_title(String new_event_title) { this.event_title = new_event_title; }
-    public Date get_event_date(Date new_event_date) { this.event_date = new_event_date; }
-    public String set_event_location(String new_event_location) { this.event_location = new_event_location; }
-    public int set_event_capacity(int new_event_capacity) { this.event_capacity = new_event_capacity; }
-    public String set_confirmed_users(String new_confirmed_users) { this.confirmed_users = new_confirmed_users; }
-    public String set_waitlisted_users(String new_waitlisted_users) { this.waitlisted_users = new_waitlisted_users; }
-    public ArrayList<String> set_booking_ids(ArrayList<String> new_booking_ids) { this.booking_ids = new_booking_ids; }
-    public String set_workshop_topic(String new_workshop_topic) { this.workshop_topic = new_workshop_topic; }
-    public String set_seminar_speaker_name(String new_seminar_speaker_name) { this.seminar_speaker_name = new_seminar_speaker_name; }
-    public int set_concert_age_restriction(int new_concert_age_restriction) { this.concert_age_restriction = new_concert_age_restriction; }
+    public String setEventId(String new_event_id) { this.event_id = new_event_id; }
+    public String setEventTitle(String new_event_title) { this.event_title = new_event_title; }
+    public Date getEventDate(Date new_event_date) { this.event_date = new_event_date; }
+    public String setEventLocation(String new_event_location) { this.event_location = new_event_location; }
+    public int setEventCapacity(int new_event_capacity) { this.event_capacity = new_event_capacity; }
+    public String setConfirmedUsers(String new_confirmed_users) { this.confirmed_users = new_confirmed_users; }
+    public String setWaitlistedUsers(String new_waitlisted_users) { this.waitlisted_users = new_waitlisted_users; }
+    public ArrayList<String> setBookingIds(ArrayList<String> new_booking_ids) { this.booking_ids = new_booking_ids; }
+    public String setWorkshopTopic(String new_workshop_topic) { this.workshop_topic = new_workshop_topic; }
+    public String setSeminarSpeakerName(String new_seminar_speaker_name) { this.seminar_speaker_name = new_seminar_speaker_name; }
+    public int setConcertAgeRestriction(int new_concert_age_restriction) { this.concert_age_restriction = new_concert_age_restriction; }
 }

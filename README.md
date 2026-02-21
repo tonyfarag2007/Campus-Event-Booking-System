@@ -4,6 +4,7 @@ This project is a campus event booking system written in Java, which uses CSV fi
 # Naming Conventions/Style Guide
 Below is the style guide/conventions to use during development:
 - Use `snake_case` for variable/function names.
+- **Use `camelCase` for all getters/setters, since JavaFX's PropertyValueFactory method requires it.**
 - Use `TitleCase` for class/enum names and **enum values**.
 
 # A note about comments
