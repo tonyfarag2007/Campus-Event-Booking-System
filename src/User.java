@@ -1,39 +1,50 @@
+// User class for GUI testing and data structure
 public class User {
-    public enum UserType{Student, Staff, Guest}
-    private UserType type;
-    private String name;
+    public enum UserType { Student, Staff, Guest }
+
+    // Variables use snake_case as per README
     private String user_id;
-    private String email;
-    public User(String name, String user_id, String email, UserType type){
-        setName(name);
+    private String user_name;
+    private String user_email;
+    private UserType user_type;
+
+    public User(String user_name, String user_id, String user_email, UserType user_type) {
         this.user_id = user_id;
-        setEmail(email);
-        this.type = type;
+        this.user_name = user_name;
+        this.user_email = user_email;
+        this.user_type = user_type;
     }
-    // Getters and setters
-    public UserType getType(){
-        return this.type;
+
+    // Getters use camelCase as per README exception for JavaFX PropertyValueFactory
+    public String getUserId() {
+        return this.user_id;
     }
-    public void setType(UserType type){
-        this.type = type;
-    }
-    public String getName(){
-        return this.name;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getUserId(){
-     return user_id;
-    }
-    // setUserId should only be used when updating ID due to event queue changes
+
     public void setUserId(String user_id) {
         this.user_id = user_id;
     }
-    public String getEmail(){
-        return email;
+
+    public String getName() {
+        return this.user_name;
     }
-    public void setEmail(String email){
-        this.email = email;
+
+    public void setName(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getEmail() {
+        return this.user_email;
+    }
+
+    public void setEmail(String user_email) {
+        this.user_email = user_email;
+    }
+
+    public UserType getType() {
+        return this.user_type;
+    }
+
+    public void setType(UserType user_type) {
+        this.user_type = user_type;
     }
 }
