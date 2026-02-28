@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Button?>
+
+<TabPane fx:id="main_tab_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+    <tabs>
+        <Tab text="User Management">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="570.0" prefWidth="800.0">
+                    <children>
+                        <!-- Resized table to width 500 to make room for the form -->
+                        <TableView fx:id="user_table_view" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="500.0">
+                            <columns>
+                                <TableColumn fx:id="user_id_column" prefWidth="75.0" text="User ID" />
+                                <TableColumn fx:id="user_name_column" prefWidth="150.0" text="Name" />
+                                <TableColumn fx:id="user_email_column" prefWidth="175.0" text="Email" />
+                                <TableColumn fx:id="user_type_column" prefWidth="100.0" text="Type" />
+                            </columns>
+                        </TableView>
+
+                        <!--
+                            Input form using GridPane.
+                            Source: Bro Code "JavaFX GridPane", "JavaFX TextField", "JavaFX ChoiceBox".
+                        -->
+                        <GridPane layoutX="530.0" layoutY="14.0" prefWidth="250.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label text="Add New User" GridPane.columnSpan="2" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+
+                                <Label text="User ID:" GridPane.rowIndex="1" />
+                                <TextField fx:id="user_id_input" promptText="e.g. U001" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="Name:" GridPane.rowIndex="2" />
+                                <TextField fx:id="user_name_input" promptText="Full Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                <Label text="Email:" GridPane.rowIndex="3" />
+                                <TextField fx:id="user_email_input" promptText="Email Address" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                <Label text="Type:" GridPane.rowIndex="4" />
+                                <ChoiceBox fx:id="user_type_choicebox" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                <Button fx:id="add_user_btn" mnemonicParsing="false" onAction="#handle_add_user" text="Add User" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                            </children>
+                        </GridPane>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+
+        <Tab text="Event Management">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Event ListView stuff goes here" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+
+        <Tab text="Booking System">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Booking Logic stuff goes here" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+
+        <Tab text="Waitlist">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Waitlist Management stuff goes here" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
