@@ -107,9 +107,37 @@
 
         <Tab text="Booking System">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="570.0" prefWidth="800.0">
                     <children>
                         <Label layoutX="20.0" layoutY="20.0" text="" />
+                        <TableView fx:id="booking_table_view" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="500.0">
+                            <columns>
+                                <TableColumn fx:id="booking_id_column" prefWidth="90.0" text="Booking ID" />
+                                <TableColumn fx:id="booking_user_column" prefWidth="100.0" text="User ID" />
+                                <TableColumn fx:id="booking_event_column" prefWidth="100.0" text="Event ID" />
+                                <TableColumn fx:id="booking_time_column" prefWidth="120.0" text="Created At" />
+                                <TableColumn fx:id="booking_status_column" prefWidth="90.0" text="Status" />
+                            </columns>
+                        </TableView>
+
+                        <GridPane layoutX="530.0" layoutY="14.0" prefWidth="250.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints prefWidth="80.0" />
+                                <ColumnConstraints prefWidth="170.0" />
+                            </columnConstraints>
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Booking Actions" GridPane.columnSpan="2" />
+                                <Label text="Booking ID:" GridPane.rowIndex="1" />
+                                <TextField fx:id="booking_id_input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label text="User ID:" GridPane.rowIndex="2" />
+                                <TextField fx:id="booking_user_input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label text="Event ID:" GridPane.rowIndex="3" />
+                                <TextField fx:id="booking_event_input" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Button fx:id="add_booking_btn" onAction="#handle_add_booking" text="Create Booking" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Button fx:id="cancel_booking_btn" onAction="#handle_cancel_booking" text="Cancel Booking" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <Label fx:id="booking_status_message" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                            </children>
+                        </GridPane>
                     </children>
                 </AnchorPane>
             </content>
@@ -117,9 +145,37 @@
 
         <Tab text="Waitlist">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="570.0" prefWidth="800.0">
                     <children>
                         <Label layoutX="20.0" layoutY="20.0" text="" />
+                        <TableView fx:id="waitlist_table_view" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="500.0">
+                            <columns>
+                                <TableColumn fx:id="waitlist_booking_id_column" prefWidth="90.0" text="Booking ID" />
+                                <TableColumn fx:id="waitlist_user_column" prefWidth="100.0" text="User ID" />
+                                <TableColumn fx:id="waitlist_event_column" prefWidth="100.0" text="Event ID" />
+                                <TableColumn fx:id="waitlist_time_column" prefWidth="120.0" text="Created At" />
+                                <TableColumn fx:id="waitlist_status_column" prefWidth="90.0" text="Status" />
+                            </columns>
+                        </TableView>
+
+                        <GridPane layoutX="530.0" layoutY="14.0" prefWidth="250.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints prefHeight="30.0" />
+                                <RowConstraints prefHeight="30.0" />
+                                <RowConstraints prefHeight="30.0" />
+                                <RowConstraints prefHeight="30.0" />
+                            </rowConstraints>
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Waitlist Actions" GridPane.columnSpan="2" />
+                                <Button fx:id="remove_waitlist_btn" onAction="#handle_remove_waitlist" text="Remove from Waitlist" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Button fx:id="refresh_waitlist_btn" onAction="#handle_refresh_waitlist" text="Refresh Waitlist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label fx:id="waitlist_status_message" style="-fx-text-fill: green;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            </children>
+                        </GridPane>
                     </children>
                 </AnchorPane>
             </content>
