@@ -15,7 +15,7 @@ public class User {
         this.user_type = user_type;
     }
 
-    // Getters use camelCase as per README exception for JavaFX PropertyValueFactory
+    // Getters use camelCase for JavaFX PropertyValueFactory
     public String getUserId() {
         return this.user_id;
     }

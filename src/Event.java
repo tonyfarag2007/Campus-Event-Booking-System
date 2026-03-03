@@ -67,25 +67,6 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.booking_ids = new ArrayList<String>();
     }
 
-    /*
-     * Qasim: Commented this out because the compiler said it was "already defined".
-     * It looks like it takes the exact same parameters as the Workshop one so Java gets confused.
-     *
-    public Event(String event_id, String event_title, Date event_date,
-          String event_location, int event_capacity, String confirmed_users,
-          String waitlisted_users, String seminar_speaker_name) {
-        this.event_id = event_id;
-        this.event_title = event_title;
-        this.event_date = event_date;
-        this.event_location = event_location;
-        this.event_capacity = event_capacity;
-        this.confirmed_users = confirmed_users;
-        this.waitlisted_users = waitlisted_users;
-        this.seminar_speaker_name = seminar_speaker_name;
-        this.booking_ids = new ArrayList<String>();
-    }
-    */
-
     // Concert constructor
     public Event(String event_id, String event_title, Date event_date,
                  String event_location, int event_capacity, String confirmed_users,
@@ -102,25 +83,19 @@ TODO: Should be able to dump confirmed/waitlisted users
     }
 
     // getters
-    public String get_event_id() { return this.event_id; }
-    public String get_event_title() { return this.event_title; }
-    public Date get_event_date() { return this.event_date; }
-    public String get_event_location() { return this.event_location; }
-    public int get_event_capacity() { return this.event_capacity; }
-    public String get_confirmed_users() { return this.confirmed_users; }
-    public String get_waitlisted_users() { return this.waitlisted_users; }
-    public ArrayList<String> get_booking_ids() { return this.booking_ids; }
-    public String get_workshop_topic() { return this.workshop_topic; }
-    public String get_seminar_speaker_name() { return this.seminar_speaker_name; }
-    public int get_concert_age_restriction() { return this.concert_age_restriction; }
+    public String getEventId() { return this.event_id; }
+    public String getEventTitle() { return this.event_title; }
+    public Date getEventDate() { return this.event_date; }
+    public String getEventLocation() { return this.event_location; }
+    public int getEventCapacity() { return this.event_capacity; }
+    public String getConfirmedUsers() { return this.confirmed_users; }
+    public String getWaitlistedUsers() { return this.waitlisted_users; }
+    public ArrayList<String> getBookingIds() { return this.booking_ids; }
+    public String getWorkshopTopic() { return this.workshop_topic; }
+    public String getSeminarSpeakerName() { return this.seminar_speaker_name; }
+    public int getConcertAgeRestriction() { return this.concert_age_restriction; }
 
     // setters
-    /*
-     * Qasim: Commented out because event_id is final so the IDE threw an error trying to make a setter for it.
-     *
-    public String set_event_id(String new_event_id) { this.event_id = new_event_id; }
-    */
-
     public void set_event_title(String new_event_title) { this.event_title = new_event_title; }
     public void set_event_date(Date new_event_date) { this.event_date = new_event_date; }
     public void set_event_location(String new_event_location) { this.event_location = new_event_location; }
