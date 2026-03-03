@@ -1,10 +1,14 @@
-public class Booking {
+import java.util.ArrayList;
+
+public class Booking extends CSVSerializable {
 
     private String b_id;
     private String u_id;
     private String e_id;
     private String e_time;
     private String b_status;
+
+    public Booking() {}
 
     // Fixed by Qasim: capitalized constructor to match class name so it compiles
     public Booking(String booking_id, String user_id, String event_id, String event_time, String booking_status){
@@ -49,4 +53,19 @@ public class Booking {
         this.b_status = booking_status;
     }
 
+    // CSV Parsing / Serialization
+    // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
+    @Override
+    public String serialize() { return String.join(",", this.b_id, this.u_id, this.e_id, this.e_time, this.b_status); }
+
+    @Override
+    public String header() { return "booking_id,user_id,event_id,event_time,booking_status"; }
+
+    @Override
+    public Booking deserialize(ArrayList<String> csv_values) {
+        if (csv_values.size() != 5)
+            throw new IllegalArgumentException("Expected 5 values for Booking deserialization, got " + csv_values.size());
+
+        return new Booking(csv_values.get(0), csv_values.get(1), csv_values.get(2), csv_values.get(3), csv_values.get(4));
+    }
 }

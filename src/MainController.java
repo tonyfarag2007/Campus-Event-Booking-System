@@ -1,5 +1,6 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.LoadException;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
@@ -11,9 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.beans.property.ReadOnlyStringWrapper;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainController {
@@ -21,6 +25,8 @@ public class MainController {
     private static final String STATUS_WAITLISTED = "Waitlisted";
     private static final String STATUS_CANCELLED = "Cancelled";
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+    private static CSVParser parser;
 
     @FXML
     private TabPane main_tab_pane;
@@ -92,6 +98,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        parser = new CSVParser();
         setup_user_table();
         setup_user_form();
 
@@ -99,7 +106,17 @@ public class MainController {
         setup_event_form();
         setup_booking_table();
         setup_waitlist_table();
-        seed_demo_booking_data();
+        // TODO: remove this.
+        //seed_demo_booking_data();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::save));
+
+    }
+
+    public void save() {
+        save_user_table();
+        save_event_table();
+        save_booking_table();
     }
 
     private void setup_user_table() {
@@ -108,16 +125,21 @@ public class MainController {
         user_email_column.setCellValueFactory(new PropertyValueFactory<>("email"));
         user_type_column.setCellValueFactory(new PropertyValueFactory<>("type"));
 
+        ArrayList<User> new_users = parser.load_csv("users.csv", User.class);
         user_list = FXCollections.observableArrayList(
-                new User("Alice Smith", "U001", "alice@uoguelph.ca", User.UserType.Student),
-                new User("Bob Jones", "U002", "bob@uoguelph.ca", User.UserType.Staff)
+                new_users
         );
+
         user_table_view.setItems(user_list);
         user_table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
+    private void save_user_table() {
+        parser.save_csv(new ArrayList<>(user_list), "users.csv");
+    }
     // Populates the ChoiceBox dropdown menu
     // Sourced from: JavaFX ChoiceBox tutorial (getItems().addAll)
+
     private void setup_user_form() {
         user_type_choicebox.getItems().addAll(User.UserType.values());
     }
@@ -157,18 +179,14 @@ public class MainController {
         event_location_column.setCellValueFactory(new PropertyValueFactory<Event, String>("eventLocation"));
         event_capacity_column.setCellValueFactory(new PropertyValueFactory<Event, Integer>("eventCapacity"));
 
-        // Creating dummy data "on the fly" exactly as mentioned in the TableView transcript
-        event_list = FXCollections.observableArrayList();
-
-        // Manual date creation (basic Java, brute-forcing the LocalDate into java.util.Date)
-        Date dummy_date_1 = new Date(126, 1, 12);
-        Date dummy_date_2 = new Date(126, 2, 1);
-
-        event_list.add(new Event("E101", "Intro to Git", dummy_date_1, "Library 101", 40, "", ""));
-        event_list.add(new Event("E205", "AI Safety Talk", dummy_date_2, "MACN 113", 120, "", ""));
+        event_list = FXCollections.observableArrayList(parser.load_csv("events.csv", Event.class));
 
         event_table_view.setItems(event_list);
         event_table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    private void save_event_table() {
+        parser.save_csv(new ArrayList<>(event_list), "events.csv");
     }
 
     private void setup_event_form() {
@@ -217,8 +235,13 @@ public class MainController {
         booking_time_column.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().get_event_time()));
         booking_status_column.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().get_book_status()));
 
+        booking_data = FXCollections.observableArrayList(parser.load_csv("bookings.csv", Booking.class));
         booking_table_view.setItems(booking_data);
         booking_table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    private void save_booking_table() {
+        parser.save_csv(new ArrayList<>(booking_data), "bookings.csv");
     }
 
     @FXML
@@ -341,6 +364,7 @@ public class MainController {
 
     private void seed_demo_booking_data() {
         if (!booking_data.isEmpty()) {
+            sync_waitlist_view();
             return;
         }
         booking_data.add(new Booking("B9000", "U001", "E101", "2026-02-01T09:00", STATUS_CONFIRMED));
