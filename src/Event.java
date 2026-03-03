@@ -46,6 +46,11 @@ TODO: Should be able to dump confirmed/waitlisted users
     // Note that age restriction is just for display and nothing more.
     private int concert_age_restriction;
 
+    // never use this, its only for temp init.
+    public Event() {
+        this.event_id = "";
+    }
+
     // Base constructor for Deserialize / total initialization.
     public Event(String event_id, String event_title, Date event_date,
                  String event_location, int event_capacity, String confirmed_users,

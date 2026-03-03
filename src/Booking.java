@@ -8,6 +8,8 @@ public class Booking extends CSVSerializable {
     private String e_time;
     private String b_status;
 
+    public Booking() {}
+
     // Fixed by Qasim: capitalized constructor to match class name so it compiles
     public Booking(String booking_id, String user_id, String event_id, String event_time, String booking_status){
         this.b_id = booking_id;
