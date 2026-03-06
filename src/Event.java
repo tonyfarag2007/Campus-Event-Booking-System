@@ -5,10 +5,8 @@ import java.util.ArrayList;
 public class Event extends CSVSerializable {
     /*
 NOTE: Checking for proper input to the constructor should be done by the "client"
-(i.e. it is not managed by the constructor, though this may change during development)
+(i.e. it is not managed by the constructor)
 
-TODO: Ask if inheritance is needed here. May be ok to implement.
-TODO: Implement listing events (dump everything?)
 TODO: Search events (search by title w/ partial/case-insensitive match), filter by event type as well)
 TODO: Sort based on levenshtein distance: https://en.wikipedia.org/wiki/Levenshtein_distance
     - ArrayList of string containing title + int score, subject to change
@@ -18,16 +16,11 @@ TODO: Should be able to dump confirmed/waitlisted users
 
     // Qasim: IntelliJ gave a "modifier final not allowed here" error on these, so I just let the IDE remove the 'final' keyword.
     // Aleks: Whenever this is implemented, should either add it to CSV serialization or tell me to do it, left it out for now because unimplemented
-    public enum EventType {Workshop, Seminar, Concert}
+    public enum EventType {Workshop, Seminar, Concert};
 
-    ;
+    // NOTE: Commented out as this was unused
+    //public enum EventStatus {Active, Cancelled}
 
-    public enum EventStatus {Active, Cancelled}
-
-    ;
-
-    // NOTE: event_id will need a concrete type sometime once we figure out if it can be just an int or string.
-    // like "E0001", for now it is a string. It is also final since ID should never change.
     private final String event_id;
     private String event_title;
     private Date event_date;

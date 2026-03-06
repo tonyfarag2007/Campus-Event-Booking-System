@@ -268,17 +268,36 @@ public class MainController {
             }
         }
 
-        Booking new_booking = new Booking(
-                new_booking_id,
-                user_id,
-                event_id,
-                LocalDateTime.now().format(TIME_FORMAT),
-                STATUS_CONFIRMED
-        );
-
-        booking_data.add(new_booking);
-        sync_waitlist_view();
-        set_booking_message("Booking created.", false);
+        // Find associated event and its capacity before adding new attendee to use waitlist properly
+        for (Event e: event_list) {
+            if (e.getEventId().equals(event_id)) {
+                // Enough space to fit new bookings given size of this events current bookings list
+                if (e.getEventCapacity() > e.getBookingIds().size()) {
+                    Booking new_booking = new Booking(
+                            new_booking_id,
+                            user_id,
+                            event_id,
+                            LocalDateTime.now().format(TIME_FORMAT),
+                            STATUS_CONFIRMED
+                    );
+                    booking_data.add(new_booking);
+                    sync_waitlist_view();
+                    set_booking_message("Booking created.", false);
+                } else {
+                    // Not enough space, so put on waitlist
+                    Booking new_booking = new Booking(
+                            new_booking_id,
+                            user_id,
+                            event_id,
+                            LocalDateTime.now().format(TIME_FORMAT),
+                            STATUS_WAITLISTED
+                    );
+                    booking_data.add(new_booking);
+                    sync_waitlist_view();
+                    set_booking_message("Capacity is full, so waitlisted booking was created.", false);
+                }
+            }
+        }
 
         booking_id_input.clear();
         booking_user_input.clear();
