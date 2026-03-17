@@ -152,22 +152,27 @@ public class MainController {
         String new_name = user_name_input.getText();
         String new_email = user_email_input.getText();
         User.UserType new_type = user_type_choicebox.getValue();
+        try {
+            User.check_dup_user_id(new_id, user_list);
+            // Basic validation: ensure no fields are empty before adding
+            if (new_id != null && !new_id.isEmpty() &&
+                    new_name != null && !new_name.isEmpty() &&
+                    new_type != null) {
 
-        // Basic validation: ensure no fields are empty before adding
-        if (new_id != null && !new_id.isEmpty() &&
-                new_name != null && !new_name.isEmpty() &&
-                new_type != null) {
+                User new_user = new User(new_name, new_id, new_email, new_type);
+                user_list.add(new_user); // This automatically updates the TableView
 
-            User new_user = new User(new_name, new_id, new_email, new_type);
-            user_list.add(new_user); // This automatically updates the TableView
-
-            // Clear the form for the next entry
-            user_id_input.clear();
-            user_name_input.clear();
-            user_email_input.clear();
-            user_type_choicebox.setValue(null);
-        } else {
-            System.out.println("Validation failed: Please fill out all required fields.");
+                // Clear the form for the next entry
+                user_id_input.clear();
+                user_name_input.clear();
+                user_email_input.clear();
+                user_type_choicebox.setValue(null);
+            } else {
+                System.out.println("Validation failed: Please fill out all required fields.");
+            }
+        }
+        catch(IllegalArgumentException e){
+            System.out.println("ID: " + new_id + " already in use");
         }
     }
 

@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.util.InputMismatchException;
 
 // User class for GUI testing and data structure
 public class User extends CSVSerializable {
@@ -51,6 +53,29 @@ public class User extends CSVSerializable {
 
     public void setType(UserType user_type) {
         this.user_type = user_type;
+    }
+    public static void check_dup_user_id(String newId, List<User> list){
+        for(User u : list){
+            if(newId.equalsIgnoreCase(u.getUserId())){
+                throw new IllegalArgumentException("ID: " + newId +" is already in use.");
+            }
+        }
+    }
+    public void validateInput(String user_id, String user_email){
+        try{
+            setUserId(user_id);
+            setEmail(user_email);
+        }
+        catch(InputMismatchException e){
+
+        }
+
+        if(!user_id.startsWith("U")){
+            throw new IllegalArgumentException("User ID must start with 'U'");
+        }
+        if(!user_name.endsWith("@uoguelph.ca")) {
+            throw new IllegalArgumentException("Email must end with @uoguelph.ca");
+        }
     }
 
     // CSV Parsing / Serialization
