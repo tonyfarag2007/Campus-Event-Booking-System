@@ -61,22 +61,6 @@ public class User extends CSVSerializable {
             }
         }
     }
-    public void validateInput(String user_id, String user_email){
-        try{
-            setUserId(user_id);
-            setEmail(user_email);
-        }
-        catch(InputMismatchException e){
-
-        }
-
-        if(!user_id.startsWith("U")){
-            throw new IllegalArgumentException("User ID must start with 'U'");
-        }
-        if(!user_name.endsWith("@uoguelph.ca")) {
-            throw new IllegalArgumentException("Email must end with @uoguelph.ca");
-        }
-    }
 
     // CSV Parsing / Serialization
     // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
