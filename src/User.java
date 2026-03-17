@@ -54,6 +54,7 @@ public class User extends CSVSerializable {
     public void setType(UserType user_type) {
         this.user_type = user_type;
     }
+    // Check for any duplicate IDs to make sure no ID can register more than once
     public static void check_dup_user_id(String newId, List<User> list){
         for(User u : list){
             if(newId.equalsIgnoreCase(u.getUserId())){
