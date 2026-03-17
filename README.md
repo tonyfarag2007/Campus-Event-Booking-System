@@ -7,7 +7,17 @@ Below is the style guide/conventions to use during development:
 - **Use `camelCase` for all getters/setters, since JavaFX's PropertyValueFactory method requires it.**
 - Use `TitleCase` for class/enum names and **enum values**.
 
-# A note about comments
+# How To Add Tests (JUnit)
+Make sure you have added JUnit to your local build dependencies. [Follow JetBrains's Guide here](https://www.jetbrains.com/help/idea/junit.html#intellij). Once you have to enter a JUnit version, specify `5.12.2`. From there, you can hit Alt+Enter on any class to generate tests for their methods.
+
+# Build/Run Instructions
+You must have the following dependencies installed:
+1) JavaFX (`java-openjfx`)
+2) JUnit (for testing) (`org.junit.jupiter:junit-jupiter:5.12.2` from Maven)
+
+**Aleks/Verbum or another person who has built the project successfully should add build instructions here.**
+
+# A Note About Comments
 Code should be self-documenting. Comments should be used to explain oddities/"quirks" of the specific function/class/method. See below for an example.
 ```java
 // Below are some examples of BAD uses of comments
