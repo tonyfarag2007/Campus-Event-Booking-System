@@ -1,11 +1,11 @@
 # How to contribute without blowing up this project
-###### Originally covered by Verbum in the project Discord, see "How to use Git and PRs under the #resources channel"
+###### Originally covered by Verbum in the project Discord, see "How to use Git and PRs under the #assets channel"
 Welcome everyone here is a step by step tutorial to using git and PRs with the GUI of IntelliJ and github
 Before starting to work on something
 ## Step 1
 Either in IntelliJ or through the command line, pull down changes from the `master` branch:
 - **ONLY IF YOU ARE ON `master` ALREADY**. navigate to the Git branch icon in the top-left corner and click the "Downward Arrow" button. It will show "Fetch" on hover. 
-  - If you are not already on `master`, go down to the `Remote` section, hover over the `master` branch, then select `Checkout`.
+  - If you are not already on `master`, go down to the `Remote` section, hover over the `master` branch, then select `Checkout`, then "Fetch" using the above steps.
 - `git fetch` provided you are on `master`, check with `git branch`, you can switch to `master` with `git switch master`
 ## Step 2
 Create a new branch:
