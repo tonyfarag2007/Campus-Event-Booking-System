@@ -172,6 +172,16 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.concert_age_restriction = new_concert_age_restriction;
     }
 
+    // Validation method added by Qasim to support Unit Testing requirements
+    public static boolean check_dup_event_id(String new_id, ArrayList<Event> existing_events) {
+        for (Event e : existing_events) {
+            if (e.getEventId().equals(new_id)) {
+                return true; // Duplicate found
+            }
+        }
+        return false; // Safe to add
+    }
+
     // CSV Parsing / Serialization
     // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
     @Override

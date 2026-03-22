@@ -9,7 +9,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="570.0" prefWidth="800.0">
                     <children>
-                        <!-- Resized table to width 500 to make room for the form -->
+
                         <TableView fx:id="user_table_view" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="500.0">
                             <columns>
                                 <TableColumn fx:id="user_id_column" prefWidth="75.0" text="User ID" />
@@ -19,16 +19,13 @@
                             </columns>
                         </TableView>
 
-                        <!--
-                            Input form using GridPane.
-                            Source: Bro Code "JavaFX GridPane", "JavaFX TextField", "JavaFX ChoiceBox".
-                        -->
                         <GridPane layoutX="530.0" layoutY="14.0" prefWidth="250.0" vgap="10.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
                             </columnConstraints>
                             <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -47,6 +44,7 @@
                                 <Label text="Type:" GridPane.rowIndex="4" />
                                 <ChoiceBox fx:id="user_type_choicebox" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                 <Button fx:id="add_user_btn" mnemonicParsing="false" onAction="#handle_add_user" text="Add User" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <Button fx:id="delete_user_btn" mnemonicParsing="false" onAction="#handle_delete_user" text="Delete Selected User" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                             </children>
                         </GridPane>
                     </children>
@@ -58,13 +56,18 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="570.0" prefWidth="800.0">
                     <children>
-                        <TableView fx:id="event_table_view" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="500.0">
+                        <TextField fx:id="search_event_input" layoutX="14.0" layoutY="14.0" prefWidth="200.0" promptText="Search by Title" />
+                        <ChoiceBox fx:id="filter_event_choicebox" layoutX="225.0" layoutY="14.0" prefWidth="150.0" />
+                        <Button fx:id="search_event_btn" layoutX="385.0" layoutY="14.0" mnemonicParsing="false" onAction="#handle_event_search" text="Search / Filter" />
+
+                        <TableView fx:id="event_table_view" layoutX="14.0" layoutY="50.0" prefHeight="504.0" prefWidth="500.0">
                             <columns>
                                 <TableColumn fx:id="event_id_column" prefWidth="75.0" text="Event ID" />
                                 <TableColumn fx:id="event_title_column" prefWidth="150.0" text="Title" />
                                 <TableColumn fx:id="event_date_column" prefWidth="100.0" text="Date" />
                                 <TableColumn fx:id="event_location_column" prefWidth="100.0" text="Location" />
                                 <TableColumn fx:id="event_capacity_column" prefWidth="75.0" text="Capacity" />
+                                <TableColumn fx:id="event_type_column" prefWidth="100.0" text="Type" />
                             </columns>
                         </TableView>
 
@@ -98,6 +101,7 @@
                                 <Label text="Type:" GridPane.rowIndex="6" />
                                 <ChoiceBox fx:id="event_type_choicebox" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                 <Button fx:id="add_event_btn" mnemonicParsing="false" onAction="#handle_add_event" text="Create Event" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                <Button fx:id="cancel_event_btn" mnemonicParsing="false" onAction="#handle_cancel_event" text="Cancel Selected Event" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                             </children>
                         </GridPane>
                     </children>
