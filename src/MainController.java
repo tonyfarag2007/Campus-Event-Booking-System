@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.LoadException;
@@ -71,6 +72,10 @@ public class MainController {
     @FXML private ChoiceBox<Event.EventType> event_type_choicebox;
 
     private ObservableList<Event> event_list;
+
+    // Search and Filter Nodes
+    @FXML private TextField search_event_input;
+    @FXML private ChoiceBox<String> filter_event_choicebox;
 
     // Booking and Waitlist fields
     private ObservableList<Booking> booking_data = FXCollections.observableArrayList();
@@ -184,6 +189,14 @@ public class MainController {
         event_location_column.setCellValueFactory(new PropertyValueFactory<Event, String>("eventLocation"));
         event_capacity_column.setCellValueFactory(new PropertyValueFactory<Event, Integer>("eventCapacity"));
 
+        event_type_column.setCellValueFactory(cellData -> {
+            Event e = cellData.getValue();
+            if (e.getWorkshopTopic() != null && !e.getWorkshopTopic().isEmpty()) return new SimpleStringProperty("Workshop");
+            if (e.getSeminarSpeakerName() != null && !e.getSeminarSpeakerName().isEmpty()) return new SimpleStringProperty("Seminar");
+            if (e.getConcertAgeRestriction() > 0) return new SimpleStringProperty("Concert");
+            return new SimpleStringProperty("Standard");
+        });
+
         event_list = FXCollections.observableArrayList(parser.load_csv("events.csv", Event.class));
 
         event_table_view.setItems(event_list);
@@ -196,6 +209,11 @@ public class MainController {
 
     private void setup_event_form() {
         event_type_choicebox.getItems().addAll(Event.EventType.values());
+
+        // Populating the filter dropdown. Added "All" as default.
+        // Sourced from: JavaFX ChoiceBox tutorial (getItems().addAll)
+        filter_event_choicebox.getItems().addAll("All", "Workshop", "Seminar", "Concert");
+        filter_event_choicebox.setValue("All");
     }
 
     @FXML
@@ -211,14 +229,38 @@ public class MainController {
 
             if (new_id != null && !new_id.isEmpty() && local_date != null && new_type != null && new_capacity > 0) {
 
+                // Check for duplicate Event IDs before creation
+                for (Event existing_event : master_event_list) {
+                    if (existing_event.getEventId().equals(new_id)) {
+                        System.out.println("Validation failed: Event ID " + new_id + " is already in use.");
+                        return; // Exit the method immediately if a duplicate is found
+                    }
+                }
+
                 int year = local_date.getYear() - 1900;
                 int month = local_date.getMonthValue() - 1;
                 int day = local_date.getDayOfMonth();
                 Date parsed_date = new Date(year, month, day);
 
-                Event new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "");
-                event_list.add(new_event);
+                Event new_event = null;
 
+                switch (new_type) {
+                    case Workshop:
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", "TBD");
+                        break;
+                    case Seminar:
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", "TBD Speaker");
+                        break;
+                    case Concert:
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", 18);
+                        break;
+                    default:
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "");
+                        break;
+                }
+
+                event_list.add(new_event);
+                master_event_list.add(new_event);
 
                 event_id_input.clear();
                 event_title_input.clear();
@@ -229,6 +271,59 @@ public class MainController {
             }
         } catch (NumberFormatException e) {
             System.out.println("Error: Capacity must be a number.");
+        }
+    }
+
+    @FXML
+    public void handle_delete_user(ActionEvent event) {
+        User selected_user = user_table_view.getSelectionModel().getSelectedItem();
+        if (selected_user != null) {
+            user_list.remove(selected_user);
+        }
+    }
+
+    @FXML
+    public void handle_cancel_event(ActionEvent event) {
+        Event selected_event = event_table_view.getSelectionModel().getSelectedItem();
+        if (selected_event != null) {
+            event_list.remove(selected_event);
+            master_event_list.remove(selected_event);
+        }
+    }
+
+    @FXML
+    public void handle_event_search(ActionEvent event) {
+        String search_text = search_event_input.getText();
+        if (search_text != null) {
+            search_text = search_text.toLowerCase();
+        }
+        String filter_type = filter_event_choicebox.getValue();
+
+        event_list.clear();
+
+        for (Event e : master_event_list) {
+            boolean matches_search = true;
+            boolean matches_type = true;
+
+            if (search_text != null && !search_text.isEmpty()) {
+                if (!e.getEventTitle().toLowerCase().contains(search_text)) {
+                    matches_search = false;
+                }
+            }
+
+            if (filter_type != null && !filter_type.equals("All")) {
+                if (filter_type.equals("Workshop") && (e.getWorkshopTopic() == null || e.getWorkshopTopic().isEmpty())) {
+                    matches_type = false;
+                } else if (filter_type.equals("Seminar") && (e.getSeminarSpeakerName() == null || e.getSeminarSpeakerName().isEmpty())) {
+                    matches_type = false;
+                } else if (filter_type.equals("Concert") && e.getConcertAgeRestriction() == 0) {
+                    matches_type = false;
+                }
+            }
+
+            if (matches_search && matches_type) {
+                event_list.add(e);
+            }
         }
     }
 
@@ -385,6 +480,10 @@ public class MainController {
         waitlist_table_view.refresh();
         set_waitlist_message("Removed from waitlist.", false);
     }
+
+    @FXML private TableColumn<Event, String> event_type_column;
+    // We need a master list in memory to search against so we don't read the CSV every time
+    private ArrayList<Event> master_event_list = new ArrayList<>();
 
     private void seed_demo_booking_data() {
         if (!booking_data.isEmpty()) {
