@@ -242,7 +242,7 @@ public class MainController {
 
             LocalDate local_date = event_date_picker.getValue();
 
-            if (new_id != null && !new_id.isEmpty() && local_date != null && new_type != null && new_capacity > 0) {
+            if (new_id != null && !new_id.isEmpty() && local_date != null && new_type != null) {
 
                 // Check for duplicate Event IDs before creation
                 for (Event existing_event : master_event_list) {
@@ -273,10 +273,9 @@ public class MainController {
                         new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "");
                         break;
                 }
-
                 event_list.add(new_event);
                 master_event_list.add(new_event);
-
+                new_event.validate_capacity(new_event);
                 event_id_input.clear();
                 event_title_input.clear();
                 event_location_input.clear();
@@ -286,6 +285,11 @@ public class MainController {
             }
         } catch (NumberFormatException e) {
             System.out.println("Error: Capacity must be a number.");
+        }
+        catch(InvalidCapacityException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 

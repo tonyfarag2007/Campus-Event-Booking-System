@@ -171,6 +171,12 @@ TODO: Should be able to dump confirmed/waitlisted users
     public void set_concert_age_restriction(int new_concert_age_restriction) {
         this.concert_age_restriction = new_concert_age_restriction;
     }
+    //Capacity validation method by Tony to ensure capacity cannot be 0 or less
+    public void validate_capacity(Event e){
+        if(e.getEventCapacity() <= 0){
+            throw new InvalidCapacityException("Capacity cannot be 0 or less");
+        }
+    }
 
     // Validation method added by Qasim to support Unit Testing requirements
     public static boolean check_dup_event_id(String new_id, ArrayList<Event> existing_events) {

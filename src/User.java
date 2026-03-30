@@ -17,6 +17,10 @@ public class User extends CSVSerializable {
     public User(String user_id){
         this.user_id = user_id;
     }
+    public User(String user_name, String user_email){
+        this.user_name = user_name;
+        this.user_email = user_email;
+    }
 
     public User(String user_name, String user_id, String user_email, UserType user_type) {
         this.user_id = user_id;
