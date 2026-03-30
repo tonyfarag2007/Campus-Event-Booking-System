@@ -55,7 +55,7 @@ public class MainController {
     private ChoiceBox<User.UserType> user_type_choicebox;
 
     // Made this a class-level variable so the add user button can access and modify it
-    private ObservableList<User> user_list;
+    public static ObservableList<User> user_list;
     // Event management nodes
     @FXML private TableView<Event> event_table_view;
     @FXML private TableColumn<Event, String> event_id_column;
@@ -367,10 +367,29 @@ public class MainController {
                 return;
             }
         }
+        User dummyUser = null;
+
+        for (User user:user_list){
+            if (user.getUserId().equals(user_id)){
+                dummyUser = user;
+            }
+            if (dummyUser == null){
+                set_booking_message("User with this id does not exist", true);
+            }
+                if (user.getBookAmount() == user.getBookLimit()) { // fails if reached maximum amount of bookings
+                    set_booking_message("User has maximum amount of bookings", true);
+                    return;
+                }
+
+
+
+        }
 
         // Find associated event and its capacity before adding new attendee to use waitlist properly
         for (Event e: event_list) {
             if (e.getEventId().equals(event_id)) {
+                assert dummyUser != null;
+                dummyUser.changeBookAmount(1);
                 // Enough space to fit new bookings given size of this events current bookings list
                 if (e.getEventCapacity() > e.getBookingIds().size()) {
                     Booking new_booking = new Booking(
@@ -437,7 +456,13 @@ public class MainController {
             );
             set_waitlist_message("Auto-promotion occurred for event " + promoted.get_event_id() + ".", false);
         } else {
-            set_booking_message("Booking cancelled.", false);
+            String user_id = selected_booking.get_book_id();
+            for (User user : user_list) {
+                if (user.getUserId().equals(user_id)) {
+                    user.changeBookAmount(-1);
+                }
+                set_booking_message("Booking cancelled.", false);
+            }
         }
     }
 

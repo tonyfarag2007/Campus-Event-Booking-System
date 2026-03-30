@@ -11,6 +11,8 @@ public class User extends CSVSerializable {
     private String user_name;
     private String user_email;
     private UserType user_type;
+    private int user_book_limit;
+    private int user_book_count;
 
     // for deserialize.
     public User() {}
@@ -20,6 +22,11 @@ public class User extends CSVSerializable {
         this.user_name = user_name;
         this.user_email = user_email;
         this.user_type = user_type;
+        if (user_type == UserType.Guest) user_book_limit = 1;
+        if (user_type == UserType.Student) user_book_limit = 3;
+        if (user_type == UserType.Staff) user_book_limit = 5;
+        this.user_book_count = 0;
+
     }
 
     // Getters use camelCase for JavaFX PropertyValueFactory
@@ -54,6 +61,20 @@ public class User extends CSVSerializable {
     public void setType(UserType user_type) {
         this.user_type = user_type;
     }
+
+    public int getBookAmount(){
+        return this.user_book_count;
+    }
+
+    public void changeBookAmount(int num){
+        this.user_book_count+=num;
+    }
+
+    public int getBookLimit(){
+        return this.user_book_limit;
+    }
+
+
     // Check for any duplicate IDs to make sure no ID can register more than once
     public static void check_dup_user_id(String newId, List<User> list){
         for(User u : list){
@@ -67,7 +88,7 @@ public class User extends CSVSerializable {
     // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
     @Override
     public String serialize() {
-        return String.join(",", this.user_id, this.user_name, this.user_email, this.user_type.toString());
+        return String.join(",", this.user_id, this.user_name, this.user_email, this.user_type.toString(), Integer.toString(this.user_book_count));
     }
 
     @Override
