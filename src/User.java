@@ -88,7 +88,7 @@ public class User extends CSVSerializable {
     // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
     @Override
     public String serialize() {
-        return String.join(",", this.user_id, this.user_name, this.user_email, this.user_type.toString(), Integer.toString(this.user_book_count));
+        return String.join(",", this.user_id, this.user_name, this.user_email, this.user_type.toString());
     }
 
     @Override
