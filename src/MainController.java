@@ -456,11 +456,12 @@ public class MainController {
             );
             set_waitlist_message("Auto-promotion occurred for event " + promoted.get_event_id() + ".", false);
         } else {
-            String user_id = selected_booking.get_book_id();
+            String user_id = selected_booking.get_user_id();
             for (User user : user_list) {
                 if (user.getUserId().equals(user_id)) {
                     user.changeBookAmount(-1);
                 }
+
                 set_booking_message("Booking cancelled.", false);
             }
         }
