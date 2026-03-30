@@ -66,6 +66,14 @@ public class Booking extends CSVSerializable {
         if (csv_values.size() != 5)
             throw new IllegalArgumentException("Expected 5 values for Booking deserialization, got " + csv_values.size());
 
+        for (User user:MainController.user_list){
+            if (user.getUserId().equals(csv_values.get(1)) && csv_values.get(4).equals("Confirmed")){
+                user.changeBookAmount(1);
+
+            }
+
+        }
+
         return new Booking(csv_values.get(0), csv_values.get(1), csv_values.get(2), csv_values.get(3), csv_values.get(4));
     }
 }
