@@ -12,7 +12,7 @@ public class DuplicateIdCheckerTest {
     User u2 = new User("U002");
     test_list.add(u1);
     test_list.add(u2);
-assertThrows(IllegalArgumentException.class, () ->{
+assertThrows(DuplicateIdException.class, () ->{
     User.check_dup_user_id("U001", test_list);
 });
 
