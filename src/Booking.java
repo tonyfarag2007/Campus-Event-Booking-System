@@ -69,10 +69,14 @@ public class Booking extends CSVSerializable {
         for (User user:MainController.user_list){
             if (user.getUserId().equals(csv_values.get(1)) && (csv_values.get(4).equals("Confirmed") || csv_values.get(4).equals("Waitlisted"))){
                 user.changeBookAmount(1);
-
+            }
+        }
+        for (Event event:MainController.event_list){
+            if (csv_values.get(2).equals(event.getEventId())){
+                event.set_booking_ids(csv_values.get(0));
+            }
             }
 
-        }
 
         return new Booking(csv_values.get(0), csv_values.get(1), csv_values.get(2), csv_values.get(3), csv_values.get(4));
     }
