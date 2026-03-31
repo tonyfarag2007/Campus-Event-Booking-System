@@ -37,7 +37,8 @@ TODO: Should be able to dump confirmed/waitlisted users
     private String workshop_topic;
     private String seminar_speaker_name;
     // Note that age restriction is just for display and nothing more.
-    private int concert_age_restriction;
+    // fixed from int to string
+    private String concert_age_restriction;
 
     // never use this, its only for temp init.
     public Event() {
@@ -47,7 +48,7 @@ TODO: Should be able to dump confirmed/waitlisted users
     // Base constructor for Deserialize / total initialization.
     public Event(String event_id, String event_title, Date event_date,
                  String event_location, int event_capacity, String confirmed_users,
-                 String waitlisted_users, ArrayList<String> booking_ids, String workshop_topic, String seminar_speaker_name, int concert_age_restriction) {
+                 String waitlisted_users, ArrayList<String> booking_ids, String workshop_topic, String seminar_speaker_name, String concert_age_restriction) {
         this.event_id = event_id;
         this.event_title = event_title;
         this.event_date = event_date;
@@ -65,71 +66,30 @@ TODO: Should be able to dump confirmed/waitlisted users
     public Event(String event_id, String event_title, Date event_date,
                  String event_location, int event_capacity, String confirmed_users,
                  String waitlisted_users) {
-        this(event_id, event_title, event_date, event_location, event_capacity, confirmed_users, waitlisted_users, new ArrayList<>(), "", "", 0);
-    }
-
-    // Workshop constructor
-    public Event(String event_id, String event_title, Date event_date,
-                 String event_location, int event_capacity, String confirmed_users,
-                 String waitlisted_users, String workshop_topic) {
-        this(event_id, event_title, event_date, event_location, event_capacity, confirmed_users, waitlisted_users);
-
-        this.workshop_topic = workshop_topic;
+        this(event_id, event_title, event_date, event_location, event_capacity, confirmed_users, waitlisted_users, new ArrayList<>(), "", "", "");
     }
 
     // Concert constructor
     public Event(String event_id, String event_title, Date event_date,
                  String event_location, int event_capacity, String confirmed_users,
-                 String waitlisted_users, int concert_age_restriction) {
+                 String waitlisted_users, String concert_age_restriction) {
         this(event_id, event_title, event_date, event_location, event_capacity, confirmed_users, waitlisted_users);
 
         this.concert_age_restriction = concert_age_restriction;
     }
 
     // getters
-    public String getEventId() {
-        return this.event_id;
-    }
-
-    public String getEventTitle() {
-        return this.event_title;
-    }
-
-    public Date getEventDate() {
-        return this.event_date;
-    }
-
-    public String getEventLocation() {
-        return this.event_location;
-    }
-
-    public int getEventCapacity() {
-        return this.event_capacity;
-    }
-
-    public String getConfirmedUsers() {
-        return this.confirmed_users;
-    }
-
-    public String getWaitlistedUsers() {
-        return this.waitlisted_users;
-    }
-
-    public ArrayList<String> getBookingIds() {
-        return this.booking_ids;
-    }
-
-    public String getWorkshopTopic() {
-        return this.workshop_topic;
-    }
-
-    public String getSeminarSpeakerName() {
-        return this.seminar_speaker_name;
-    }
-
-    public int getConcertAgeRestriction() {
-        return this.concert_age_restriction;
-    }
+    public String getEventId() { return this.event_id; }
+    public String getEventTitle() { return this.event_title; }
+    public Date getEventDate() { return this.event_date; }
+    public String getEventLocation() { return this.event_location; }
+    public int getEventCapacity() { return this.event_capacity; }
+    public String getConfirmedUsers() { return this.confirmed_users; }
+    public String getWaitlistedUsers() { return this.waitlisted_users; }
+    public ArrayList<String> getBookingIds() { return this.booking_ids; }
+    public String getWorkshopTopic() { return this.workshop_topic; }
+    public String getSeminarSpeakerName() { return this.seminar_speaker_name; }
+    public String getConcertAgeRestriction() { return this.concert_age_restriction; }
 
     // setters
     public void set_event_title(String new_event_title) {
@@ -168,7 +128,7 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.seminar_speaker_name = new_seminar_speaker_name;
     }
 
-    public void set_concert_age_restriction(int new_concert_age_restriction) {
+    public void set_concert_age_restriction(String new_concert_age_restriction) {
         this.concert_age_restriction = new_concert_age_restriction;
     }
 
@@ -186,47 +146,43 @@ TODO: Should be able to dump confirmed/waitlisted users
     // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
     @Override
     public String serialize() {
-        String booking_ids_str = String.join(";", this.booking_ids);
         return String.join(",",
                 this.event_id,
                 this.event_title,
-                Long.toString(this.event_date.getTime() / 1000L),
+                this.event_date.toString().replace(" ", "T"),
                 this.event_location,
                 Integer.toString(this.event_capacity),
-                this.confirmed_users,
-                this.waitlisted_users,
-                booking_ids_str,
-                this.workshop_topic,
-                this.seminar_speaker_name,
-                Integer.toString(this.concert_age_restriction));
+                "Active",
+                "Workshop",
+                this.getWorkshopTopic(),
+                this.getSeminarSpeakerName(),
+                this.getConcertAgeRestriction());
     }
 
     @Override
     public String header() {
-        return "event_id,event_title,event_date,event_location,event_capacity,confirmed_users,waitlisted_users,booking_ids,workshop_topic,seminar_speaker_name,concert_age_restriction";
+        return "eventId,title,dateTime,location,capacity,status,eventType,topic,speakerName,ageRestriction";
     }
 
     @Override
     public Event deserialize(ArrayList<String> csv_values) {
-        // TODO: actually sanitize the values.
         String event_id = csv_values.get(0);
         String event_title = csv_values.get(1);
-        var event_date = new Date(Long.parseLong(csv_values.get(2)) * 1000L);
+
+        // Fix: Converting "2026-09-10T14:30" to "2026/09/10 14:30" so the legacy Date constructor accepts it.
+        // Logic based on DatePicker string manipulation.
+        String raw_date = csv_values.get(2).replace("-", "/").replace("T", " ");
+        var event_date = new Date(raw_date);
+
         String event_location = csv_values.get(3);
         int event_capacity = Integer.parseInt(csv_values.get(4));
-        String confirmed_users = csv_values.get(5);
-        String waitlisted_users = csv_values.get(6);
 
-        ArrayList<String> booking_ids = new ArrayList<>();
-        if (!csv_values.get(7).isEmpty()) {
-            String[] booking_id_array = csv_values.get(7).split(";");
-            booking_ids.addAll(Arrays.asList(booking_id_array));
-        }
+        // Professor's CSV has 'status' and 'eventType' at indices 5 and 6.
+        // We skip those and use empty strings for the attendee lists which aren't in the file.
+        String workshop_topic = csv_values.get(7);
+        String seminar_speaker_name = csv_values.get(8);
+        String age_limit = csv_values.get(9);
 
-        String workshop_topic = csv_values.get(8);
-        String seminar_speaker_name = csv_values.get(9);
-        int concert_age_restriction = Integer.parseInt(csv_values.get(10));
-
-        return new Event(event_id, event_title, event_date, event_location, event_capacity, confirmed_users, waitlisted_users, booking_ids, workshop_topic, seminar_speaker_name, concert_age_restriction);
+        return new Event(event_id, event_title, event_date, event_location, event_capacity, "", "", new ArrayList<>(), workshop_topic, seminar_speaker_name, age_limit);
     }
 }

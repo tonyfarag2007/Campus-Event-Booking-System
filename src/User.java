@@ -105,7 +105,7 @@ public class User extends CSVSerializable {
     }
 
     @Override
-    public String header() { return "user_id,user_name,user_email,user_type"; }
+    public String header() { return "userId,name,email,userType"; }
 
     @Override
     public User deserialize(ArrayList<String> csv_values) {
