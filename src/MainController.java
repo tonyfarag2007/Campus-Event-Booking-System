@@ -477,7 +477,7 @@ public class MainController {
                     user.changeBookAmount(-1);
                 }
 
-                set_booking_message("Booking cancelled", false);
+                set_booking_message("Booking cancelled.", false);
             }
         }
     }
