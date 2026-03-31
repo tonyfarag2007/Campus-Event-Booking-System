@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Alert;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -158,13 +159,15 @@ public class MainController {
         String new_email = user_email_input.getText();
         User.UserType new_type = user_type_choicebox.getValue();
         try {
-            User.check_dup_user_id(new_id, user_list);
             // Basic validation: ensure no fields are empty before adding
             if (new_id != null && !new_id.isEmpty() &&
                     new_name != null && !new_name.isEmpty() &&
                     new_type != null) {
 
                 User new_user = new User(new_name, new_id, new_email, new_type);
+                User.check_dup_user_id(new_id, user_list); // Checks for duplicate IDs
+                new_user.validate_name(new_user); // Ensures name is longer than 3 characters
+                new_user.validate_email(new_user); // Ensures email ends with '@uoguelph.ca'
                 user_list.add(new_user); // This automatically updates the TableView
 
                 // Clear the form for the next entry
@@ -176,8 +179,20 @@ public class MainController {
                 System.out.println("Validation failed: Please fill out all required fields.");
             }
         }
-        catch(IllegalArgumentException e){
-            System.out.println("ID: " + new_id + " already in use");
+        catch(DuplicateIdException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch(InvalidEmailException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch(InvalidNameException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 

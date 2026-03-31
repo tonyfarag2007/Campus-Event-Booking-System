@@ -16,6 +16,9 @@ public class User extends CSVSerializable {
 
     // for deserialize.
     public User() {}
+    public User(String user_id){
+        this.user_id = user_id;
+    }
 
     public User(String user_name, String user_id, String user_email, UserType user_type) {
         this.user_id = user_id;
@@ -76,11 +79,21 @@ public class User extends CSVSerializable {
 
 
     // Check for any duplicate IDs to make sure no ID can register more than once
-    public static void check_dup_user_id(String newId, List<User> list){
+    public static void check_dup_user_id(String new_id, List<User> list){
         for(User u : list){
-            if(newId.equalsIgnoreCase(u.getUserId())){
-                throw new IllegalArgumentException("ID: " + newId +" is already in use.");
+            if(new_id.equalsIgnoreCase(u.getUserId())){
+                throw new DuplicateIdException(new_id);
             }
+        }
+    }
+    public void validate_email(User user){
+        if(!user.getEmail().endsWith("@uoguelph.ca")){
+            throw new InvalidEmailException(user.getEmail());
+        }
+    }
+    public void validate_name(User user){
+        if(user.getName().length() < 3){
+            throw new InvalidNameException(user.getName());
         }
     }
 
