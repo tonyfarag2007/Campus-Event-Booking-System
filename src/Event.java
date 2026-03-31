@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Event extends CSVSerializable {
@@ -146,17 +147,27 @@ TODO: Should be able to dump confirmed/waitlisted users
     // TODO: WHEN YOU CHANGE VARS HERE, CHANGE THIS TOO
     @Override
     public String serialize() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String eventType = "Standard";
+        if (this.workshop_topic != null && !this.workshop_topic.isEmpty()) {
+            eventType = "Workshop";
+        } else if (this.seminar_speaker_name != null && !this.seminar_speaker_name.isEmpty()) {
+            eventType = "Seminar";
+        } else if (this.concert_age_restriction != null && !this.concert_age_restriction.isEmpty()) {
+            eventType = "Concert";
+        }
+
         return String.join(",",
                 this.event_id,
                 this.event_title,
-                this.event_date.toString().replace(" ", "T"),
+                sdf.format(this.event_date),
                 this.event_location,
                 Integer.toString(this.event_capacity),
                 "Active",
-                "Workshop",
-                this.getWorkshopTopic(),
-                this.getSeminarSpeakerName(),
-                this.getConcertAgeRestriction());
+                eventType,
+                this.workshop_topic == null ? "" : this.workshop_topic,
+                this.seminar_speaker_name == null ? "" : this.seminar_speaker_name,
+                this.concert_age_restriction == null ? "" : this.concert_age_restriction);
     }
 
     @Override
