@@ -400,10 +400,10 @@ public class MainController {
             if (dummyUser == null){
                 set_booking_message("User with this id does not exist", true);
             }
-                if (user.getBookAmount() == user.getBookLimit()) { // fails if reached maximum amount of bookings
+            if (dummyUser.getBookAmount() == dummyUser.getBookLimit()) { // fails if reached maximum amount of bookings
                     set_booking_message("User has maximum amount of bookings", true);
                     return;
-                }
+            }
 
 
 
