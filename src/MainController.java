@@ -528,6 +528,13 @@ public class MainController {
         booking_table_view.refresh();
         sync_waitlist_view();
         waitlist_table_view.refresh();
+
+        String user_id = selected_booking.get_user_id();
+        for (User user : user_list) {
+            if (user.getUserId().equals(user_id)) {
+                user.changeBookAmount(-1);
+            }
+        }
         set_waitlist_message("Removed from waitlist.", false);
     }
 

@@ -67,7 +67,7 @@ public class Booking extends CSVSerializable {
             throw new IllegalArgumentException("Expected 5 values for Booking deserialization, got " + csv_values.size());
 
         for (User user:MainController.user_list){
-            if (user.getUserId().equals(csv_values.get(1)) && csv_values.get(4).equals("Confirmed")){
+            if (user.getUserId().equals(csv_values.get(1)) && (csv_values.get(4).equals("Confirmed") || csv_values.get(4).equals("Waitlisted"))){
                 user.changeBookAmount(1);
 
             }
