@@ -25,9 +25,9 @@ public class User extends CSVSerializable {
         this.user_name = user_name;
         this.user_email = user_email;
         this.user_type = user_type;
-        if (user_type == UserType.Guest) user_book_limit = 1;
-        if (user_type == UserType.Student) user_book_limit = 3;
-        if (user_type == UserType.Staff) user_book_limit = 5;
+        if (user_type == UserType.Guest) this.user_book_limit = 1;
+        if (user_type == UserType.Student) this.user_book_limit = 3;
+        if (user_type == UserType.Staff) this.user_book_limit = 5;
         this.user_book_count = 0;
 
     }
