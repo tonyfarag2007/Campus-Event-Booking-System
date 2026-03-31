@@ -117,8 +117,8 @@ TODO: Should be able to dump confirmed/waitlisted users
         this.waitlisted_users = new_waitlisted_users;
     }
 
-    public void set_booking_ids(ArrayList<String> new_booking_ids) {
-        this.booking_ids = new_booking_ids;
+    public void set_booking_ids(String new_booking_id) {
+        this.booking_ids.add(new_booking_id);
     }
 
     public void set_workshop_topic(String new_workshop_topic) {

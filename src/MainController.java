@@ -73,7 +73,7 @@ public class MainController {
     @FXML private TextField event_capacity_input;
     @FXML private ChoiceBox<Event.EventType> event_type_choicebox;
 
-    private ObservableList<Event> event_list;
+    public static ObservableList<Event> event_list;
 
     // Search and Filter Nodes
     @FXML private TextField search_event_input;
@@ -404,7 +404,6 @@ public class MainController {
             }
         }
         User dummyUser = null;
-
         for (User user:user_list){
             if (user.getUserId().equals(user_id)){
                 dummyUser = user;
