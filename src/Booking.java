@@ -59,7 +59,7 @@ public class Booking extends CSVSerializable {
     public String serialize() { return String.join(",", this.b_id, this.u_id, this.e_id, this.e_time, this.b_status); }
 
     @Override
-    public String header() { return "booking_id,user_id,event_id,event_time,booking_status"; }
+    public String header() { return "bookingId,userId,eventId,createdAt,bookingStatus"; }
 
     @Override
     public Booking deserialize(ArrayList<String> csv_values) {

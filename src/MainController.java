@@ -64,6 +64,7 @@ public class MainController {
     @FXML private TableColumn<Event, String> event_date_column;
     @FXML private TableColumn<Event, String> event_location_column;
     @FXML private TableColumn<Event, Integer> event_capacity_column;
+    @FXML private TableColumn<Event, String> event_age_column;
 
     @FXML private TextField event_id_input;
     @FXML private TextField event_title_input;
@@ -208,11 +209,19 @@ public class MainController {
             Event e = cellData.getValue();
             if (e.getWorkshopTopic() != null && !e.getWorkshopTopic().isEmpty()) return new SimpleStringProperty("Workshop");
             if (e.getSeminarSpeakerName() != null && !e.getSeminarSpeakerName().isEmpty()) return new SimpleStringProperty("Seminar");
-            if (e.getConcertAgeRestriction() > 0) return new SimpleStringProperty("Concert");
+            if (e.getConcertAgeRestriction() != null && !e.getConcertAgeRestriction().isEmpty()) return new SimpleStringProperty("Concert");
             return new SimpleStringProperty("Standard");
         });
 
         event_list = FXCollections.observableArrayList(parser.load_csv("events.csv", Event.class));
+
+        event_type_column.setCellValueFactory(cellData -> {
+            Event e = cellData.getValue();
+            if (e.getWorkshopTopic() != null && !e.getWorkshopTopic().isEmpty()) return new SimpleStringProperty("Workshop");
+            if (e.getSeminarSpeakerName() != null && !e.getSeminarSpeakerName().isEmpty()) return new SimpleStringProperty("Seminar");
+            if (e.getConcertAgeRestriction() != null && !e.getConcertAgeRestriction().isEmpty()) return new SimpleStringProperty("Concert");
+            return new SimpleStringProperty("Standard");
+        });
 
         event_table_view.setItems(event_list);
         event_table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -261,16 +270,16 @@ public class MainController {
 
                 switch (new_type) {
                     case Workshop:
-                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", "TBD");
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", new ArrayList<>(), "TBD", "", "");
                         break;
                     case Seminar:
-                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", "TBD Speaker");
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", new ArrayList<>(), "", "TBD Speaker", "");
                         break;
                     case Concert:
-                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", 18);
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", new ArrayList<>(), "", "", "All Ages");
                         break;
                     default:
-                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "");
+                        new_event = new Event(new_id, new_title, parsed_date, new_location, new_capacity, "", "", new ArrayList<>(), "", "", "");
                         break;
                 }
 
@@ -331,7 +340,7 @@ public class MainController {
                     matches_type = false;
                 } else if (filter_type.equals("Seminar") && (e.getSeminarSpeakerName() == null || e.getSeminarSpeakerName().isEmpty())) {
                     matches_type = false;
-                } else if (filter_type.equals("Concert") && e.getConcertAgeRestriction() == 0) {
+                } else if (filter_type.equals("Concert") && (e.getConcertAgeRestriction() == null || e.getConcertAgeRestriction().isEmpty())) {
                     matches_type = false;
                 }
             }
@@ -585,6 +594,24 @@ public class MainController {
     private void set_booking_message(String text, boolean is_error) {
         booking_status_message.setText(text);
         booking_status_message.setStyle(is_error ? "-fx-text-fill: red;" : "-fx-text-fill: green;");
+    }
+    @FXML
+    public void handle_view_user_details(ActionEvent event) {
+        User selected_user = user_table_view.getSelectionModel().getSelectedItem();
+        if (selected_user != null) {
+            String details = "User: " + selected_user.getName() + "\nID: " + selected_user.getUserId() + "\n--- Bookings ---\n";
+            ArrayList<Booking> all_bookings = parser.load_csv("bookings.csv", Booking.class);
+            for (Booking b : all_bookings) {
+                if (b.get_user_id().equals(selected_user.getUserId())) {
+                    details += "Event: " + b.get_event_id() + " Status: " + b.get_book_status() + "\n";
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("User Details");
+            alert.setHeaderText(null);
+            alert.setContentText(details);
+            alert.showAndWait();
+        }
     }
 
     private void set_waitlist_message(String text, boolean is_error) {

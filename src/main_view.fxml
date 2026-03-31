@@ -45,6 +45,7 @@
                                 <ChoiceBox fx:id="user_type_choicebox" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                 <Button fx:id="add_user_btn" mnemonicParsing="false" onAction="#handle_add_user" text="Add User" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                 <Button fx:id="delete_user_btn" mnemonicParsing="false" onAction="#handle_delete_user" text="Delete Selected User" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                <Button fx:id="view_user_btn" mnemonicParsing="false" onAction="#handle_view_user_details" text="View User Details" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                             </children>
                         </GridPane>
                     </children>
