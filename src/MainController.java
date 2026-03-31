@@ -396,19 +396,16 @@ public class MainController {
         for (User user:user_list){
             if (user.getUserId().equals(user_id)){
                 dummyUser = user;
-            }
-            if (dummyUser == null){
-                set_booking_message("User with this id does not exist", true);
-            }
-            if (dummyUser.getBookAmount() == dummyUser.getBookLimit()) { // fails if reached maximum amount of bookings
-                    set_booking_message("User has maximum amount of bookings", true);
-                    return;
-            }
 
-
-
+                if (dummyUser.getBookAmount() == dummyUser.getBookLimit()) { // fails if reached maximum amount of bookings
+                        set_booking_message("User has maximum amount of bookings", true);
+                        return;
+                }
+            }
         }
-
+        if (dummyUser == null){
+            set_booking_message("User with this id does not exist", true);
+        }
         // Find associated event and its capacity before adding new attendee to use waitlist properly
         for (Event e: event_list) {
             if (e.getEventId().equals(event_id)) {
