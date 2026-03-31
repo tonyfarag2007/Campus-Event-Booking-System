@@ -1,6 +1,0 @@
-event_id,event_title,event_date,event_location,event_capacity,confirmed_users,waitlisted_users,booking_ids,workshop_topic,seminar_speaker_name,concert_age_restriction
-E102,Even1,1774584000,Hall1,10,,,,TBD Speaker,,0
-E201,Event2,1774670400,Hall3,10,,,,TBD Speaker,,0
-E301,Event3,1773892800,Hall4,10,,,,,,18
-E401,Event4,1775188800,Hall5,10,,,,TBD Speaker,,0
-E501,Name5,1775620800,Hall7,10,,,,TBD Speaker,,0
