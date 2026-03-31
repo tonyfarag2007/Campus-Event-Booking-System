@@ -214,6 +214,7 @@ public class MainController {
         });
 
         event_list = FXCollections.observableArrayList(parser.load_csv("events.csv", Event.class));
+        master_event_list = new ArrayList<>(event_list);
 
         event_type_column.setCellValueFactory(cellData -> {
             Event e = cellData.getValue();
@@ -228,7 +229,7 @@ public class MainController {
     }
 
     private void save_event_table() {
-        parser.save_csv(new ArrayList<>(event_list), "events.csv");
+        parser.save_csv(master_event_list, "events.csv");
     }
 
     private void setup_event_form() {
@@ -238,6 +239,7 @@ public class MainController {
         // Sourced from: JavaFX ChoiceBox tutorial (getItems().addAll)
         filter_event_choicebox.getItems().addAll("All", "Workshop", "Seminar", "Concert");
         filter_event_choicebox.setValue("All");
+        filter_event_choicebox.setOnAction(this::handle_event_search);
     }
 
     @FXML
@@ -330,7 +332,17 @@ public class MainController {
             boolean matches_type = true;
 
             if (search_text != null && !search_text.isEmpty()) {
-                if (!e.getEventTitle().toLowerCase().contains(search_text)) {
+                String title = e.getEventTitle().toLowerCase();
+                boolean matched_str = title.contains(search_text) || calculate_levenshtein_distance(title, search_text) <= 3;
+                if (!matched_str) {
+                    for (String word : title.split("\\s+")) {
+                        if (calculate_levenshtein_distance(word, search_text) <= 2) {
+                            matched_str = true;
+                            break;
+                        }
+                    }
+                }
+                if (!matched_str) {
                     matches_search = false;
                 }
             }
@@ -611,5 +623,24 @@ public class MainController {
     private void set_waitlist_message(String text, boolean is_error) {
         waitlist_status_message.setText(text);
         waitlist_status_message.setStyle(is_error ? "-fx-text-fill: red;" : "-fx-text-fill: green;");
+    }
+
+    // Levenshtein Distance alg to compare the transforms required to turn one string into another, its simpler than fuzzy-searching
+    private int calculate_levenshtein_distance(String a, String b) {
+        int[][] dp = new int[a.length() + 1][b.length() + 1];
+
+        for (int i = 0; i <= a.length(); i++) {
+            for (int j = 0; j <= b.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    dp[i][j] = Math.min(dp[i - 1][j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1),
+                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+                }
+            }
+        }
+        return dp[a.length()][b.length()];
     }
 }
