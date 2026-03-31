@@ -41,17 +41,20 @@ public class CSVParser {
             if (!line.equals(header)) {
                 throw new RuntimeException("The CSV file's header does not match the expected format for " + klass.getName() + ". Please manually fix the file.");
             }
+            final int expectedColumns = header.split(",", -1).length;
 
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                if (values.length == 0 || values.length != header.split(",").length) // we will ignore malformed entries, rather than throw an exception. TODO: ask questions then fix later.
+                String[] values = line.split(",", -1);
+                if (values.length == 0 || values.length != expectedColumns) // we will ignore malformed entries, rather than throw an exception. TODO: ask questions then fix later.
                     continue;
 
                 ArrayList<String> csv_values = new ArrayList<>(Arrays.asList(values));
 
                 // don't worry this will always work, and if it doesn't we have bigger problems than it not working.
                 var obj = (T)klass.getConstructor().newInstance().deserialize(csv_values);
-                ret.add(obj);
+                if (obj != null) {
+                    ret.add(obj);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error loading CSV file: " + e.getMessage());

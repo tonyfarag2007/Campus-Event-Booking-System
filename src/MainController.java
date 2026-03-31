@@ -539,16 +539,6 @@ public class MainController {
     // We need a master list in memory to search against so we don't read the CSV every time
     private ArrayList<Event> master_event_list = new ArrayList<>();
 
-    private void seed_demo_booking_data() {
-        if (!booking_data.isEmpty()) {
-            sync_waitlist_view();
-            return;
-        }
-        booking_data.add(new Booking("B9000", "U001", "E101", "2026-02-01T09:00", STATUS_CONFIRMED));
-        booking_data.add(new Booking("B9001", "U001", "E102", "2026-02-01T09:15", STATUS_WAITLISTED));
-        booking_data.add(new Booking("B9002", "U002", "E102", "2026-02-01T09:30", STATUS_WAITLISTED));
-        sync_waitlist_view();
-    }
 
     private Booking promote_first_waitlisted_booking(String event_id) {
         Booking first_waitlisted = null;
